@@ -1,11 +1,11 @@
 import Item from "../models/items.js";
 import cloudinary from "../config/cloudinary.js";
 
-// ==================== Create Item ====================
+// ======================================================
+// CREATE ITEM
+// ======================================================
 
-export const createItem = async (req, res,next) => {
-   
-
+export const createItem = async (req, res, next) => {
     try {
         const {
             title,
@@ -39,23 +39,17 @@ export const createItem = async (req, res,next) => {
             message: "Item created successfully",
             item,
         });
-
     } catch (error) {
-
         next(error);
-
     }
 };
 
-// ==================== Get All Items (Search Supported) ====================
+// ======================================================
+// GET ALL ITEMS
+// ======================================================
 
-// ==================== Get All Items (Search + Filters + Pagination) ====================
-
-// ==================== Get All Items (Search + Filters + Pagination + Sorting) ====================
-
-export const getAllItems = async (req, res,next) => {
+export const getAllItems = async (req, res, next) => {
     try {
-
         const {
             keyword,
             category,
@@ -67,9 +61,8 @@ export const getAllItems = async (req, res,next) => {
             limit = 5,
         } = req.query;
 
-        let query = {};
+        const query = {};
 
-        // Search by Title or Description
         if (keyword) {
             query.$or = [
                 {
@@ -87,17 +80,14 @@ export const getAllItems = async (req, res,next) => {
             ];
         }
 
-        // Filter by Category
         if (category) {
             query.category = category;
         }
 
-        // Filter by Type
         if (type) {
             query.type = type;
         }
 
-        // Filter by Location
         if (location) {
             query.location = {
                 $regex: location,
@@ -105,19 +95,15 @@ export const getAllItems = async (req, res,next) => {
             };
         }
 
-        // Filter by Status
         if (status) {
             query.status = status;
         }
 
-        // Pagination
         const currentPage = Number(page);
         const itemsPerPage = Number(limit);
-
         const skip = (currentPage - 1) * itemsPerPage;
 
-        // Sorting
-        let sortOption = {};
+        const sortOption = {};
 
         if (sort === "latest") {
             sortOption.createdAt = -1;
@@ -146,21 +132,17 @@ export const getAllItems = async (req, res,next) => {
             count: items.length,
             items,
         });
-
-    }catch (error) {
-
+    } catch (error) {
         next(error);
-
     }
 };
 
-// ==================== Get Single Item ====================
+// ======================================================
+// GET SINGLE ITEM
+// ======================================================
 
-export const getSingleItem = async (req, res,next) => {
-
-    
+export const getSingleItem = async (req, res, next) => {
     try {
-
         const item = await Item.findById(req.params.id).populate(
             "owner",
             "name email"
@@ -177,19 +159,17 @@ export const getSingleItem = async (req, res,next) => {
             success: true,
             item,
         });
-
     } catch (error) {
-
         next(error);
-
     }
 };
 
-// ==================== Update Item ====================
+// ======================================================
+// UPDATE ITEM
+// ======================================================
 
-export const updateItem = async (req, res,next) => {
+export const updateItem = async (req, res, next) => {
     try {
-
         const item = await Item.findById(req.params.id);
 
         if (!item) {
@@ -198,7 +178,7 @@ export const updateItem = async (req, res,next) => {
                 message: "Item not found",
             });
         }
-         // Only owner can update
+
         if (item.owner.toString() !== req.user._id.toString()) {
             return res.status(403).json({
                 success: false,
@@ -206,9 +186,7 @@ export const updateItem = async (req, res,next) => {
             });
         }
 
-        // Delete old image if new image uploaded
         if (req.file) {
-
             if (item.image?.public_id) {
                 await cloudinary.uploader.destroy(item.image.public_id);
             }
@@ -234,19 +212,17 @@ export const updateItem = async (req, res,next) => {
             message: "Item updated successfully",
             item,
         });
-
     } catch (error) {
-
         next(error);
-
     }
 };
 
-// ==================== Delete Item ====================
+// ======================================================
+// DELETE ITEM
+// ======================================================
 
-export const deleteItem = async (req, res,next) => {
+export const deleteItem = async (req, res, next) => {
     try {
-
         const item = await Item.findById(req.params.id);
 
         if (!item) {
@@ -255,14 +231,14 @@ export const deleteItem = async (req, res,next) => {
                 message: "Item not found",
             });
         }
-         // Only owner can delete
+
         if (item.owner.toString() !== req.user._id.toString()) {
             return res.status(403).json({
                 success: false,
                 message: "You are not authorized to delete this item.",
             });
         }
-        // Delete image from Cloudinary
+
         if (item.image?.public_id) {
             await cloudinary.uploader.destroy(item.image.public_id);
         }
@@ -273,20 +249,17 @@ export const deleteItem = async (req, res,next) => {
             success: true,
             message: "Item deleted successfully",
         });
-
     } catch (error) {
-
         next(error);
-
     }
 };
-// ==================== Get My Items ====================
+
+// ======================================================
+// GET MY ITEMS
+// ======================================================
 
 export const getMyItems = async (req, res, next) => {
-     
-
     try {
-
         const items = await Item.find({
             owner: req.user._id,
         }).sort({
@@ -298,11 +271,7 @@ export const getMyItems = async (req, res, next) => {
             count: items.length,
             items,
         });
-
     } catch (error) {
-
         next(error);
-
     }
-
 };
