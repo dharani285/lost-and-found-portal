@@ -113,14 +113,14 @@ function Hero({
 
                 <button
                     onClick={() => navigate("/report-lost")}
-                    className="w-[250px] h-[60px] text-[22px] bg-red-400 hover:bg-red-600 text-white rounded-xl font-semibold transition"
+                    className="w-[180px] h-[50px] text-[22px] bg-red-400 hover:bg-red-600 text-white rounded-xl font-semibold transition"
                 >
                     Report Lost
                 </button>
 
                 <button
                     onClick={() => navigate("/report-found")}
-                    className="w-[250px] h-[60px] text-[22px] bg-green-400 hover:bg-green-700 text-white rounded-xl font-semibold transition"
+                    className="w-[180px] h-[50px] text-[22px] bg-green-400 hover:bg-green-700 text-white rounded-xl font-semibold transition"
                 >
                     Report Found
                 </button>
