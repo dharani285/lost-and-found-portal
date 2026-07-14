@@ -1,0 +1,15 @@
+version: "3.3"
+
+services:
+  backend:
+    build:
+      context: .
+    container_name: lost-found-backend
+
+    ports:
+      - "5000:5000"
+
+    env_file:
+      - .env
+
+    restart: always
