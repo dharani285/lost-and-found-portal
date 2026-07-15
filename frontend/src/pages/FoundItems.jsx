@@ -12,7 +12,16 @@ function FoundItems() {
             try {
                 setLoading(true);
 
-                const data = await getAllItems(
+                const lostItems = await getAllItems(
+                    "",
+                    "",
+                    "Lost",
+                    "",
+                    1,
+                    100
+                );
+
+                const foundItems = await getAllItems(
                     "",
                     "",
                     "Found",
@@ -21,9 +30,26 @@ function FoundItems() {
                     100
                 );
 
-                console.log("FOUND ITEMS DATA:", data);
+                console.log("LOST ITEMS:", lostItems.items);
+                console.log("FOUND ITEMS:", foundItems.items);
 
-                setItems(data.items || []);
+                const claimedLostItems = (lostItems.items || []).filter(
+                    (item) => item.status === "Claimed"
+                );
+
+                console.log("CLAIMED LOST ITEMS:", claimedLostItems);
+
+                setItems([
+                    ...(foundItems.items || []),
+                    ...claimedLostItems,
+                ]);
+
+                setItems([
+                    ...(foundItems.items || []),
+                    ...(lostItems.items || []).filter(
+                        (item) => item.status === "Claimed"
+                    ),
+                ]);
             } catch (error) {
                 console.error(
                     "GET FOUND ITEMS ERROR:",
@@ -152,28 +178,27 @@ function FoundItems() {
                             {/* FOUND BADGE */}
 
                             <span
-                                className="
-                                    absolute
-                                    top-4
-                                    left-4
-                                    px-4
-                                    py-1.5
-                                    bg-green-50
-                                    text-green-600
-                                    border
-                                    border-green-200
-                                    rounded-full
-                                    text-xm
-                                    font-bold
-                                    w-[70px]
-                                    h-[25px]
-                                    text-center
-                                "
-                            >
-                                Found
-                            </span>
-
-                        </div>
+                                    className="
+                                        absolute
+                                        top-4
+                                        left-4
+                                        px-4
+                                        py-1.5
+                                        bg-green-50
+                                        text-green-600
+                                        border
+                                        border-green-200
+                                        rounded-full
+                                        text-xm
+                                        font-bold
+                                        w-[70px]
+                                        h-[25px]
+                                        text-center
+                                    "
+                                >
+                                    Found
+                                </span>
+                            </div>
 
 
                         {/* ITEM CONTENT */}

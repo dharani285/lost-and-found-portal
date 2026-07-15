@@ -25,14 +25,14 @@ function ItemCard({ item, showActions = false, onDelete }) {
 
                 <div className="mt-4 flex justify-between items-center">
 
-                    <span
+                   <span
                         className={`w-24 h-8 flex items-center justify-center rounded-full text-white font-semibold ${
-                            item.type === "Lost"
-                                ? "bg-red-500"
-                                : "bg-green-500"
+                            item.status === "Claimed"
+                                ? "bg-green-500"
+                                : "bg-red-500"
                         }`}
                     >
-                        {item.type}
+                        {item.status === "Claimed" ? "Found" : "Lost"}
                     </span>
                     <br/>
                     <br/>

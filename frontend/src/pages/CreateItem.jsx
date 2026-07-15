@@ -242,11 +242,10 @@ function CreateItem() {
                     min-h-screen
                     flex
                     justify-center
-                    items-start
+                    items-center
                     px-4
                     sm:px-6
-                    pt-16
-                    pb-20
+                    py-16
                 "
             >
 
@@ -262,8 +261,7 @@ function CreateItem() {
                         bg-white
                         rounded-3xl
                         shadow-xl
-                        px-6
-                        sm:px-10
+                        px-8
                         md:px-12
                         py-12
                     "
@@ -307,7 +305,7 @@ function CreateItem() {
 
                     <form
                         onSubmit={handleSubmit}
-                        className="space-y-8"
+                        className="space-y-10  px-8 sm:px-10"
                     >
 
 
@@ -413,7 +411,7 @@ function CreateItem() {
                                 grid
                                 grid-cols-1
                                 md:grid-cols-2
-                                gap-8
+                                gap-10
                             "
                         >
 
@@ -703,14 +701,14 @@ function CreateItem() {
                             SUBMIT BUTTON
                         ====================================================== */}
                         <br/>
-                        <div className="pt-8">
+                        <div className="pt-10">
 
                             <button
                                 type="submit"
                                 disabled={submitting}
                                 className="
                                     w-full
-                                    min-h-[35px]
+                                    min-h-[40px]
                                     px-6
                                     py-3
                                     rounded-xl

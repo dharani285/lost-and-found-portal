@@ -23,7 +23,11 @@ function LostItems() {
 
                 console.log("LOST ITEMS DATA:", data);
 
-                setItems(data.items || []);
+                setItems(
+                    (data.items || []).filter(
+                        (item) => item.status !== "Claimed"
+                    )
+                );
             } catch (error) {
                 console.error(
                     "GET LOST ITEMS ERROR:",
@@ -152,27 +156,27 @@ function LostItems() {
                             {/* LOST BADGE */}
 
                             <span
-                                className="
+                                className={`
                                     absolute
                                     top-4
                                     left-4
                                     px-4
                                     py-1.5
-                                    bg-red-200
-                                    text-red-600
-                                    border
-                                    border-red-200
                                     rounded-full
                                     text-xm
                                     font-bold
                                     w-[70px]
                                     h-[25px]
                                     text-center
-                                "
+                                    ${
+                                        item.status === "Claimed"
+                                            ? "bg-green-100 text-green-600 border border-green-200"
+                                            : "bg-red-200 text-red-600 border border-red-200"
+                                    }
+                                `}
                             >
-                                Lost
+                                {item.status === "Claimed" ? "Found" : "Lost"}
                             </span>
-
                         </div>
 
 

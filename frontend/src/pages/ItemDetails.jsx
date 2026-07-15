@@ -314,16 +314,14 @@ function ItemDetails() {
                             h-[35px]
 
                             ${
-                                item.type === "Lost"
-                                    ? "bg-red-500"
-                                    : "bg-green-500"
+                                item.status === "Claimed"
+                                    ? "bg-green-500"
+                                    : "bg-red-500"
                             }
                         `}
                     >
-                        {item.type}
+                        {item.status === "Claimed" ? "Found" : "Lost"}
                     </span>
-
-
                     <br />
                     <br />
 
@@ -387,7 +385,7 @@ function ItemDetails() {
 
                         {/* FOUND ITEM */}
 
-                        {item.type === "Found" && (
+                        {item.type === "claimed" && (
                             <div
                                 className="
                                     inline-flex
@@ -407,7 +405,7 @@ function ItemDetails() {
 
                         {/* OWNER VIEW */}
 
-                        {item.type === "Lost" &&
+                        {item.status !== "Claimed" &&
                             isOwner && (
 
                             <div
@@ -525,7 +523,7 @@ function ItemDetails() {
                         {/* ITEM ALREADY CLAIMED BY ANOTHER USER */}
                         {/* ============================================= */}
 
-                        {item.type === "Lost" &&
+                        {item.status === "Claimed" &&
                             !isOwner &&
                             !hasClaimed &&
                             item.status === "Claimed" && (
@@ -542,7 +540,7 @@ function ItemDetails() {
                                     font-semibold
                                 "
                             >
-                                ✓ This item has already been claimed
+                                 ✓ This item has already been found
                             </div>
 
                         )}
@@ -553,18 +551,15 @@ function ItemDetails() {
                         {/* ============================================= */}
 
                         {item.type === "Lost" &&
+                            item.status !== "Claimed" &&
                             !isOwner &&
-                            !hasClaimed &&
-                            item.status !== "Claimed" && (
+                            !hasClaimed && (
 
                             <button
                                 onClick={() => {
 
                                     if (!user) {
-                                        alert(
-                                            "Please login first."
-                                        );
-
+                                        alert("Please login first.");
                                         return;
                                     }
 
@@ -581,14 +576,14 @@ function ItemDetails() {
                                     font-bold
                                     shadow-md
                                     transition
-                                    min-w-[130px]
+                                    min-w-[150px]
+                                    h-[30px]
                                 "
                             >
                                 Claim Item
                             </button>
 
                         )}
-
 
                     </div>
 
@@ -621,9 +616,10 @@ function ItemDetails() {
                         className="
                             bg-white
                             w-full
-                            max-w-[700px]
+                            max-w-[820px]
                             rounded-3xl
                             shadow-2xl
+                            p-8
                         "
                     >
 
@@ -709,57 +705,51 @@ function ItemDetails() {
                             </button>
 
                         </div>
-
-
+                        <br/>
                         {/* MODAL BODY */}
 
-                        <div className="px-8 py-6">
+                        <div className="px-10 py-6">
 
                             <label
                                 className="
                                     block
-                                    text-lg
+                                    text-2xl
                                     font-semibold
                                     text-gray-700
-                                    mb-3
+                                    mb-4
+                                    text-center
                                 "
                             >
                                 Claim Message
                             </label>
-
-
-                            <textarea
-                                rows={8}
-                                maxLength={500}
-
-                                value={message}
-
-                                onChange={(e) =>
-                                    setMessage(e.target.value)
-                                }
-
-                                placeholder="Example: This wallet belongs to me. It contains my college ID, ATM card and other personal documents."
-
-                                className="
-                                    w-full
-                                    rounded-2xl
-                                    border-2
-                                    border-gray-200
-                                    p-5
-                                    resize-none
-                                    outline-none
-                                    focus:border-violet-500
-                                    transition
-                                "
-                            />
-
-
-                            <div className="flex justify-end mt-2">
-
+                                <textarea
+                                    rows={8}
+                                    maxLength={500}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder="Example: This wallet belongs to me. It contains my college ID, ATM card and other personal documents."
+                                    className="
+                                        w-full
+                                        box-border
+                                        rounded-2xl
+                                        border
+                                        border-gray-300
+                                        pt-6
+                                        px-5
+                                        pb-5
+                                        resize-none
+                                        outline-none
+                                        focus:ring-2
+                                        focus:ring-violet-500
+                                        focus:border-violet-200
+                                        transition
+                                    "
+                                />
+                            
+                            <div className="flex justify-end mt-3">
                                 <span className="text-sm text-gray-400">
                                     {message.length}/500
                                 </span>
-
                             </div>
 
                         </div>
@@ -815,6 +805,7 @@ function ItemDetails() {
 
                                 className="
                                     min-w-[150px]
+                                    h-[25px]
                                     px-7
                                     py-3
                                     rounded-xl

@@ -53,7 +53,7 @@ function ItemsGrid({
             >
                 Recent Items
             </h2>
-
+            <br/>
             {items.length === 0 ? (
                 <div className="text-center py-12">
                     <p className="text-2xl font-semibold text-gray-700">
