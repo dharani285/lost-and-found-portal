@@ -27,12 +27,12 @@ function ItemCard({ item, showActions = false, onDelete }) {
 
                    <span
                         className={`w-24 h-8 flex items-center justify-center rounded-full text-white font-semibold ${
-                            item.status === "Claimed"
+                            item.type === "Found"
                                 ? "bg-green-500"
                                 : "bg-red-500"
                         }`}
                     >
-                        {item.status === "Claimed" ? "Found" : "Lost"}
+                        {item.type}
                     </span>
                     <br/>
                     <br/>
