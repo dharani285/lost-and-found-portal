@@ -312,15 +312,14 @@ function ItemDetails() {
                             font-bold
                             w-[90px]
                             h-[35px]
-
                             ${
-                                item.status === "Claimed"
+                                item.type === "Found"
                                     ? "bg-green-500"
                                     : "bg-red-500"
                             }
                         `}
                     >
-                        {item.status === "Claimed" ? "Found" : "Lost"}
+                        {item.type}
                     </span>
                     <br />
                     <br />
@@ -385,23 +384,22 @@ function ItemDetails() {
 
                         {/* FOUND ITEM */}
 
-                        {item.type === "claimed" && (
-                            <div
-                                className="
-                                    inline-flex
-                                    items-center
-                                    px-6
-                                    py-3
-                                    rounded-xl
-                                    bg-green-100
-                                    text-green-700
-                                    font-semibold
-                                "
-                            >
-                                ✓ This item has been found
-                            </div>
-                        )}
-
+                       {item.type === "Found" && !isOwner && (
+                        <div
+                            className="
+                                inline-flex
+                                items-center
+                                px-6
+                                py-3
+                                rounded-xl
+                                bg-green-100
+                                text-green-700
+                                font-semibold
+                            "
+                        >
+                            ✓ This item has been found
+                        </div>
+                    )}
 
                         {/* OWNER VIEW */}
 
@@ -545,44 +543,47 @@ function ItemDetails() {
 
                         )}
 
-
+                        
                         {/* ============================================= */}
                         {/* CLAIM BUTTON */}
                         {/* ============================================= */}
-
-                        {item.type === "Lost" &&
+                        <br/>
+                        {
                             item.status !== "Claimed" &&
                             !isOwner &&
                             !hasClaimed && (
+                
+                            <div className="mt-4">
+                                <button
+                                    onClick={() => {
 
-                            <button
-                                onClick={() => {
+                                        if (!user) {
+                                            alert("Please login first.");
+                                            return;
+                                        }
 
-                                    if (!user) {
-                                        alert("Please login first.");
-                                        return;
-                                    }
+                                        setShowModal(true);
+                                    }}
 
-                                    setShowModal(true);
-                                }}
-
-                                className="
-                                    px-7
-                                    py-3
-                                    rounded-xl
-                                    bg-violet-600
-                                    hover:bg-violet-700
-                                    text-white
-                                    font-bold
-                                    shadow-md
-                                    transition
-                                    min-w-[150px]
-                                    h-[30px]
-                                "
-                            >
-                                Claim Item
-                            </button>
-
+                                    className="
+                                        px-7
+                                        py-3
+                                        rounded-xl
+                                        bg-violet-600
+                                        hover:bg-violet-700
+                                        text-white
+                                        font-bold
+                                        shadow-md
+                                        transition
+                                        min-w-[150px]
+                                        h-[30px]
+                                    "
+                                >
+                                    {item.type === "Lost"
+                                        ? "Claim Item"
+                                        : "This Is My Item"}
+                                </button>
+                            </div>
                         )}
 
                     </div>

@@ -180,7 +180,6 @@ export const getMyClaims = async (req, res) => {
             }))
         );
 
-
         return res.status(200).json({
             success: true,
             claims,
